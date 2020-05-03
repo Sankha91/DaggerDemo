@@ -6,9 +6,12 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.sankha.daggerdemo2.R
+import com.sankha.daggerdemo2.db.WordDao
+import com.sankha.daggerdemo2.db.WordRoomDatabase
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -28,7 +31,7 @@ class AppModule {
 
     @Provides
     fun provideDrawable(application: Application) : Drawable {
-        return ContextCompat.getDrawable(application, R.drawable.ic_splash)!!
+        return ContextCompat.getDrawable(application, R.drawable.ic_androidrobot)!!
     }
 
     @Singleton
@@ -57,5 +60,19 @@ class AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRoomDatabase(application: Application) : WordRoomDatabase{
+        return Room.databaseBuilder(application, WordRoomDatabase::class.java, "word_database")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDao(wordRoomDatabase: WordRoomDatabase): WordDao{
+        return wordRoomDatabase.wordDao()
     }
 }

@@ -1,7 +1,7 @@
 package com.sankha.daggerdemo2.di
 
 import androidx.appcompat.app.AppCompatActivity
-import com.sankha.daggerdemo2.dashboard.DashboardActivity
+import com.sankha.daggerdemo2.dashboard.view.DashboardActivity
 import dagger.BindsInstance
 import dagger.Subcomponent
 

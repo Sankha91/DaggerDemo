@@ -1,4 +1,4 @@
-package com.sankha.daggerdemo2.dashboard
+package com.sankha.daggerdemo2.dashboard.view
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -6,9 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
 import com.sankha.daggerdemo2.MyApplication
 import com.sankha.daggerdemo2.R
+import com.sankha.daggerdemo2.dashboard.viewmodel.DashboardViewModel
+import com.sankha.daggerdemo2.dashboard.viewmodel.DashboardViewModelFactory
 import com.sankha.daggerdemo2.di.AppComponent
 import com.sankha.daggerdemo2.di.PostLoginComponent
 import com.sankha.daggerdemo2.login.model.UserResponseModel
@@ -23,7 +27,10 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var loginIntent: Intent
     @Inject
     lateinit var editor: SharedPreferences.Editor
+    @Inject
+    lateinit var dashboardViewModelFactory: DashboardViewModelFactory
 
+    lateinit var dashboardViewModel: DashboardViewModel
     lateinit var appComponent: AppComponent
     lateinit var postLoginComponent: PostLoginComponent
     lateinit var userResponseModel: UserResponseModel
@@ -38,10 +45,12 @@ class DashboardActivity : AppCompatActivity() {
             .build()
         postLoginComponent.injectDashboardActivity(this)
 
+        dashboardViewModel = ViewModelProviders.of(this, dashboardViewModelFactory).get(DashboardViewModel::class.java)
+
         if (intent.hasExtra(_KEY_USER_DETAILS))
         userResponseModel = intent.getSerializableExtra(_KEY_USER_DETAILS) as UserResponseModel
 
-        tvDescription.text = "Welcome "+userResponseModel.name +" !\n\nEmail : "+userResponseModel.email+"\nContact : "+userResponseModel.phone
+        tvDescription.text = "Welcome "+userResponseModel.name +" !\n\nEmail : "+userResponseModel.email+"\nContact : "+userResponseModel.phone+"\n"+userResponseModel.address.toString()
 
      //   Log.e("MyApplicaton","editor...dashboard..."+editor.toString())
         tvLogout.setOnClickListener {
@@ -51,5 +60,17 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(loginIntent)
             finish()
         }
+
+        btSubmit.setOnClickListener {
+            dashboardViewModel.insert(etNotes.text.toString())
+        }
+
+        dashboardViewModel.getInsertLiveData().observe(this, Observer {
+            if (it) {
+                Toast.makeText(this, "Saved Successfully !", Toast.LENGTH_LONG).show()
+                etNotes.text?.clear()
+            }
+            else Toast.makeText(this, "Oops! Something went wrong.", Toast.LENGTH_LONG).show()
+        })
     }
 }

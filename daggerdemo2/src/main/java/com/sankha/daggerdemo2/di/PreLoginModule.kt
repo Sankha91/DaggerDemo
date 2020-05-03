@@ -3,7 +3,7 @@ package com.sankha.daggerdemo2.di
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import com.sankha.daggerdemo2.dashboard.DashboardActivity
+import com.sankha.daggerdemo2.dashboard.view.DashboardActivity
 import com.sankha.daggerdemo2.login.model.UserResponseModel
 import com.sankha.daggerdemo2.login.viewmodel.LoginDataSource
 import com.sankha.daggerdemo2.login.viewmodel.LoginDataSourceImpl
@@ -17,7 +17,7 @@ import java.util.*
 import javax.inject.Named
 
 @Module
-class PreLoginModule() {
+class PreLoginModule {
 
     @Named("GotoLogin")
     @Provides

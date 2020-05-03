@@ -15,4 +15,8 @@ data class Address(
     val city : String,
     val zipcode : String,
     val suite : String
-) : Serializable
+) : Serializable {
+    override fun toString(): String {
+        return suite+", "+street+", "+city+", "+zipcode
+    }
+}
