@@ -20,11 +20,16 @@ import com.sankha.daggerdemo2.login.others.Constants
 import com.sankha.daggerdemo2.login.others.Constants._KEY_USER_DETAILS
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class DashboardActivity : AppCompatActivity() {
 
+    @Named("GotoLogin")
     @Inject
     lateinit var loginIntent: Intent
+    @Named("GotoView")
+    @Inject
+    lateinit var viewIntent: Intent
     @Inject
     lateinit var editor: SharedPreferences.Editor
     @Inject
@@ -72,5 +77,9 @@ class DashboardActivity : AppCompatActivity() {
             }
             else Toast.makeText(this, "Oops! Something went wrong.", Toast.LENGTH_LONG).show()
         })
+
+        tvView.setOnClickListener {
+            startActivity(viewIntent)
+        }
     }
 }

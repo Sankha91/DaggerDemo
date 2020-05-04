@@ -30,6 +30,7 @@ class PreLoginModule {
     fun provideLoginIntent(appCompatActivity: AppCompatActivity) : Intent {
         return Intent(appCompatActivity, DashboardActivity::class.java)
     }
+
     @Provides
     fun provideTimer() : Timer{
          return Timer()
