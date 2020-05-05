@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.sankha.daggerdemo2.MyApplication
 import com.sankha.daggerdemo2.R
 import com.sankha.daggerdemo2.db.WordDao
 import com.sankha.daggerdemo2.db.WordRoomDatabase
@@ -75,4 +77,5 @@ class AppModule {
     fun provideDao(wordRoomDatabase: WordRoomDatabase): WordDao{
         return wordRoomDatabase.wordDao()
     }
+
 }

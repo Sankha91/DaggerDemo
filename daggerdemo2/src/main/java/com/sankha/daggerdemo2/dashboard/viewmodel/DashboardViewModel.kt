@@ -1,15 +1,12 @@
 package com.sankha.daggerdemo2.dashboard.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sankha.daggerdemo2.db.WordEntity
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.logging.SimpleFormatter
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
 class DashboardViewModel @Inject constructor(private val dashboardRepository: DashboardRepository) : ViewModel(),
@@ -37,8 +34,24 @@ class DashboardViewModel @Inject constructor(private val dashboardRepository: Da
         }
     }
 
+    fun deleteAll() {
+        launch {
+            dashboardRepository.deleteAll()
+        }
+    }
+
+    fun delete(wordEntity: WordEntity){
+        launch {
+            dashboardRepository.deleteSingleItem(wordEntity)
+        }
+    }
+
     fun getInsertLiveData() : MutableLiveData<Boolean>{
         return dashboardRepository.insertLiveData
+    }
+
+    fun getDeleteLiveData() : MutableLiveData<Boolean>{
+        return dashboardRepository.deleteLiveData
     }
 
     fun fetchLiveData() : MutableLiveData<List<WordEntity>>{

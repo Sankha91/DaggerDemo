@@ -20,19 +20,19 @@ class ViewListAdapter(private val wordList : ArrayList<WordEntity>, private val 
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val wordEntity = wordList.get(position)
+        val wordEntity = getItemAtPosition(position)
         with(holder){
             title.text = wordEntity.message
             timestamp.text = wordEntity.timeStamp
-            delete.setOnClickListener {
-
-            }
         }
+    }
+
+    fun getItemAtPosition(position: Int) : WordEntity{
+        return  wordList.get(position)
     }
 
     class CustomViewHolder(itemview : View) : RecyclerView.ViewHolder(itemview) {
         val title = itemview.findViewById<AppCompatTextView>(R.id.tvMsg)
         val timestamp = itemview.findViewById<AppCompatTextView>(R.id.tvTimestamp)
-        val delete = itemview.findViewById<AppCompatImageView>(R.id.imgvwDelete)
     }
 }
